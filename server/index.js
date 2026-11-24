@@ -14,11 +14,55 @@ const { shortId, randomInt } = require('./util');
 const { DdzGame } = require('./games/ddz');
 const { MahjongGame } = require('./games/mahjong');
 const assets = require('./static');
+const { isPackaged, holdConsole } = require('./pause');
+
+// ---- 全局兜底：必须在任何可能抛错的动作之前注册 ----
+// 双击 exe 时窗口随进程退出而关闭，报错会一闪而过；
+// 这些处理器保证任何失败路径都先把信息打印出来、再停住窗口。
+
+// 未捕获异常：打印堆栈后停住
+process.on('uncaughtException', (e) => {
+  console.error('');
+  console.error('  [!] 出错了：' + (e && e.stack ? e.stack : e));
+  holdConsole();
+  process.exit(1);
+});
+
+// 未处理的 Promise 拒绝：同上
+process.on('unhandledRejection', (e) => {
+  console.error('');
+  console.error('  [!] 出错了：' + (e && e.stack ? e.stack : e));
+  holdConsole();
+  process.exit(1);
+});
+
+// Ctrl+C 或关窗口：说一句再走，避免看起来像崩了
+process.on('SIGINT', () => {
+  console.log('');
+  console.log('  服务已停止。');
+  holdConsole();
+  process.exit(0);
+});
 
 const DEFAULT_PORT = 11451;
 /** 端口占用时自动往后顺延，最多试这么多个 */
 const MAX_PORT_TRIES = 30;
-let PORT = Number(process.env.PORT || DEFAULT_PORT);
+
+/** 解析端口，非法值给出可读的提示而不是抛 ERR_SOCKET_BAD_PORT */
+function parsePort(raw) {
+  const n = Number(raw);
+  if (!Number.isInteger(n) || n < 1 || n > 65535) {
+    console.error('');
+    console.error(`  [!] 端口 "${raw}" 不合法，必须是 1~65535 之间的整数。`);
+    console.error('      不设 PORT 就用默认的 11451，或指定一个空闲端口，例如：');
+    console.error('        set PORT=20000');
+    holdConsole();
+    process.exit(1);
+  }
+  return n;
+}
+
+let PORT = parsePort(process.env.PORT || DEFAULT_PORT);
 let portTries = 0;
 const MAX_SEATS = { ddz: 3, mahjong: 4 };
 const MIN_SEATS = { ddz: 3, mahjong: 2 };
@@ -447,6 +491,7 @@ server.on('error', (e) => {
   } else {
     console.error('  服务启动失败：' + e.message);
   }
+  holdConsole();
   process.exit(1);
 });
 
@@ -471,9 +516,19 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log('  按 Ctrl+C 停止服务');
   console.log('');
 
-  if (process.env.OPEN_BROWSER === '1') {
+  // exe 形态默认帮用户打开浏览器（双击就该能用）；
+  // 源码运行不自动弹窗，开发时反复重启不想被刷屏。
+  // 两种形态都可以用 OPEN_BROWSER=0 / 1 显式覆盖。
+  const wantBrowser = process.env.OPEN_BROWSER === '1'
+    || (isPackaged() && process.env.OPEN_BROWSER !== '0');
+  if (wantBrowser) {
     try {
       require('child_process').exec(`start "" "http://localhost:${PORT}"`);
     } catch (e) { /* 忽略：打不开浏览器不影响服务 */ }
   }
 });
+
+// 双击 exe 后用户直接关窗口，或任务管理器结束进程时，
+// 尽量说一句再走，避免控制台看起来像崩了。
+// （SIGINT 与 uncaughtException 的处理器在文件开头注册，
+//   必须早于任何可能抛错的动作，否则错误会在注册前逃逸。）

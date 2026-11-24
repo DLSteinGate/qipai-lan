@@ -45,17 +45,17 @@
 
 把局域网那行发给朋友即可。**只有一个文件要拷，目标机器不需要 Node、不需要 npm install、不需要任何运行库。**
 
+exe 会自己打开浏览器。启动失败（端口全被占、端口号写错）时会停住窗口等你按回车，错误信息不会一闪而过。想关掉自动开浏览器：`set OPEN_BROWSER=0` 后再双击，或在命令行里 `set OPEN_BROWSER=0 && 局域网棋牌室.exe`。
+
 ### 方式二：源码运行（需要 Node ≥ 22）
 
 ```bash
-git clone https://github.com/<your-name>/qipai-lan.git
+git clone https://github.com/DLSteinGate/qipai-lan.git
 cd qipai-lan
 node server/index.js
 ```
 
-或者 Windows 下双击 `启动.bat`：优先用同目录的 exe，没有才退回本机 `node`。
-
-浏览器会自动打开首页，点「⚡ 立即开一局」直接和两个电脑开打，不用起名、不用等人。
+源码运行不会自动开浏览器，自己打开 <http://localhost:11451> 即可。点「⚡ 立即开一局」直接和两个电脑开打，不用起名、不用等人。
 
 ### 端口
 
@@ -120,6 +120,7 @@ node tools/build-sea.js 棋牌室-1.2.exe
 ```
 server/index.js                 HTTP + SSE 服务，房间与动作路由
 server/static.js                静态资源层（源码运行 / 单文件 exe 双形态）
+server/pause.js                 exe 形态下退出前停住窗口，避免报错一闪而过
 server/util.js                  房间号、随机数工具
 server/games/ddz-rules.js       斗地主牌型识别 / 比大小 / 枚举
 server/games/ddz.js             斗地主流程 + AI
@@ -194,6 +195,7 @@ node test/ui.test.js       # 真实浏览器打完整局（需服务已启动 + 
 - 断线不会自动重连补局，刷新页面会回到首页（房间还在，可以重新加入）。
 - 房间号 4 位随机，小概率撞号，撞了重新创建即可。
 - 单文件 exe 只在 Windows 上验证过；SEA 本身跨平台，其它平台的产物没有测试。
+- exe 靠控制台窗口承载日志。把它关掉（或按 Ctrl+C）服务就停了，**这个窗口要留着**。想彻底后台运行，用 `start /min 局域网棋牌室.exe` 最小化启动。
 
 ## 许可
 

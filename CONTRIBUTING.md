@@ -5,7 +5,7 @@
 ## 环境
 
 - **Node.js ≥ 22**（`node --version` 确认）。开发用 26.x，SEA 打包用 Node 自带的 `--build-sea`，不需要额外安装打包工具。
-- Windows 是主要目标平台（`启动.bat`、单文件 exe 都按 Windows 走的）。服务端与前端本身是跨平台的，Linux/macOS 下 `node server/index.js` 可以正常跑。
+- Windows 是主要目标平台（单文件 exe 按 Windows 走的）。服务端与前端本身是跨平台的，Linux/macOS 下 `node server/index.js` 可以正常跑。
 - 跑 `test/ui.test.js` 和 `tools/shot-home.js` 需要本机 Chrome 或 Edge，以及 `npm install`（会装 `playwright-core`）。**不装也不影响跑其它测试。**
 
 ## 本地跑起来
