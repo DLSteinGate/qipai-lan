@@ -1,0 +1,46 @@
+{
+  "name": "qipai-lan",
+  "version": "1.2.0",
+  "description": "局域网棋牌室：斗地主 + 广东推倒胡麻将，浏览器联机，可打包成零依赖单文件 exe",
+  "main": "server/index.js",
+  "type": "commonjs",
+  "private": true,
+  "license": "SEE LICENSE IN LICENSE",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "build": "node tools/build-sea.js",
+    "test": "node test/rules.test.js",
+    "test:sim": "node test/sim.test.js",
+    "test:http": "node test/http.test.js",
+    "test:ui": "node test/ui.test.js",
+    "test:all": "node test/rules.test.js && node test/sim.test.js && node test/http.test.js && node test/ui.test.js",
+    "shot": "node tools/shot-home.js"
+  },
+  "keywords": [
+    "dou-dizhu",
+    "landlord",
+    "mahjong",
+    "card-game",
+    "lan",
+    "multiplayer",
+    "sse",
+    "zero-dependency",
+    "single-executable-application",
+    "pixel-art",
+    "vanilla-js"
+  ],
+  "files": [
+    "server/",
+    "public/",
+    "tools/",
+    "启动.bat",
+    "README.md",
+    "LICENSE"
+  ],
+  "devDependencies": {
+    "playwright-core": "^1.65.0"
+  }
+}

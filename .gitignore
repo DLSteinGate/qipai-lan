@@ -1,0 +1,24 @@
+# ---- 构建产物 ----
+# 单文件 exe 有 100 MB，不进仓库；用 npm run build 自己生成
+局域网棋牌室.exe
+*.exe
+.sea-build/
+
+# ---- 依赖 ----
+node_modules/
+package-lock.json
+
+# ---- 运行产物 ----
+*.log
+srv*.log
+
+# ---- 编辑器 / 系统 ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- 临时调试脚本与截图 ----
+*.tmp.js
+docs/screens/_*
