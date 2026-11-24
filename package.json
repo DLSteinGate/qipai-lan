@@ -6,6 +6,14 @@
   "type": "commonjs",
   "private": true,
   "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DLSteinGate/qipai-lan.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DLSteinGate/qipai-lan/issues"
+  },
+  "homepage": "https://github.com/DLSteinGate/qipai-lan#readme",
   "engines": {
     "node": ">=22"
   },
