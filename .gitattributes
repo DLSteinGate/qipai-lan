@@ -1,0 +1,42 @@
+# 换行符与二进制文件的类型标记
+# 目的：不管克隆的人本地 core.autocrlf 怎么设，检出结果都必须一致。
+# 关键项是 *.bat —— 它以 LF 检出时，cmd.exe 会按字节切错行，
+# 只要换行不符就会出现一闪而过的窗口（见 README「已知限制」）。
+
+# --- 批处理必须原样保存 ---
+# 不用 text eol=crlf，因为那只是「检出时转 CRLF」，仓库里存的仍是 LF，
+# 而 GitHub 的 ZIP 下载走 git archive，拿到的可能还是 LF。
+# -text 让仓库字节与工作副本完全一致：克隆、拉取、ZIP 下载都是 CRLF。
+*.bat -text
+*.cmd -text
+
+# --- 源码与文档统一 LF，避免跨平台 diff 噪声 ---
+*.js    text eol=lf
+*.mjs   text eol=lf
+*.css   text eol=lf
+*.html  text eol=lf
+*.json  text eol=lf
+*.md    text eol=lf
+*.txt   text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+
+# --- 二进制：禁止任何换行转换与文本 diff ---
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.ico   binary
+*.bmp   binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary
+*.exe   binary
+*.zip   binary
+
+# --- 单一语言仓库：GitHub 语言统计只看前端与后端源码 ---
+docs/**     linguist-documentation
+joker/**    linguist-documentation
+*.md        linguist-documentation
