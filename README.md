@@ -6,6 +6,7 @@
 ![Node.js](https://img.shields.io/badge/node-%E2%89%A522-brightgreen)
 ![Dependencies](https://img.shields.io/badge/dependencies-0-blue)
 ![Frontend](https://img.shields.io/badge/frontend-vanilla%20JS-yellow)
+[![Release](https://img.shields.io/github/v/release/DLSteinGate/qipai-lan?label=download&color=2ea44f)](https://github.com/DLSteinGate/qipai-lan/releases/latest)
 
 ![首页](docs/home.png)
 
@@ -37,7 +38,7 @@
 
 ### 方式一：单文件 exe（不需要 Node）
 
-到 Releases 下载 `局域网棋牌室.exe`，放任意目录双击。控制台会打印地址：
+到 [Releases](https://github.com/DLSteinGate/qipai-lan/releases/latest) 下载 `qipai-lan-vX.Y.Z-win-x64.exe`，放任意目录双击（改名叫 `局域网棋牌室.exe` 也行，名字不影响运行）。控制台会打印地址：
 
 ```
 本机打开：  http://localhost:11451
