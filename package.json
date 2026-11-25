@@ -8,12 +8,12 @@
   "license": "SEE LICENSE IN LICENSE",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DLSteinGate/qipai-lan.git"
+    "url": "git+https://github.com/DLSteinsGate/qipai-lan.git"
   },
   "bugs": {
-    "url": "https://github.com/DLSteinGate/qipai-lan/issues"
+    "url": "https://github.com/DLSteinsGate/qipai-lan/issues"
   },
-  "homepage": "https://github.com/DLSteinGate/qipai-lan#readme",
+  "homepage": "https://github.com/DLSteinsGate/qipai-lan#readme",
   "engines": {
     "node": ">=22"
   },
